@@ -61,12 +61,14 @@ uint8_t MyI2C_SendByte(uint8_t data) {
         SCL_H();
         delay_us(2);
         SCL_L();
+		delay_us(2); 
     }
     SDA_H();
     SCL_H();
     delay_us(2);
     uint8_t ack = SDA_READ();
     SCL_L();
+	delay_us(2); 
     return ack;
 }
 
@@ -86,6 +88,7 @@ uint8_t MyI2C_ReadByte(uint8_t ack) {
     SCL_H();
     delay_us(2);
     SCL_L();
+	delay_us(2); 
     SDA_H();
     return value;
 }

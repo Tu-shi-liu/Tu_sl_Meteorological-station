@@ -17,7 +17,7 @@
 #define LED_PORT  GPIOC
 #define PAGE1_TIME 8
 #define PAGE2_TIME 8
-#define COLLECT_CONT 5
+#define COLLECT_CONT 1
 #define COLLECT_LP   30
 #define ALARM_TIME   15
 #define BKP_MODE  BKP_DR10
@@ -57,8 +57,8 @@ int main(void) {
 
     BKP_Init();
     RTC_Init();
-	Key_Init();
 	OLED_Init();
+	Key_Init();
 	MyI2C_Init();
 	W25Q64_Init();
     TimeSetting_Init();
@@ -226,7 +226,7 @@ static void GPIO_Init_Alarm(void) {
     GPIO_Init(BEEP_PORT, &Structure);
 
     Structure.GPIO_Pin = LED_PIN;
-    Structure.GPIO_Mode = GPIO_Mode_Out_PP;
+    Structure.GPIO_Mode = GPIO_Mode_Out_OD;
     Structure.GPIO_Speed = GPIO_Speed_50MHz;
     GPIO_Init(LED_PORT, &Structure);
 
@@ -246,7 +246,7 @@ static void DataCollect(void) {
     }
     LogRecord r;
     r.timestamp = RTC_GetMyTimestamp();
-    r.temperature = (int16_t)(temp_bmp * 10);
+    r.temperature = (int16_t)(temp_aht * 10);
     r.humidity = (uint16_t)(humi * 10);
     r.pressure = (uint32_t)(press * 100);
     W25Q64_WriteRecord(&r);
@@ -269,7 +269,7 @@ static void CheckAlarm(void) {
 static void ALARM_Trigger(void) {
     if (!alarm_act) {
         alarm_act = 1;
-        alarm_cnt = 2; 
+        alarm_cnt = 3; 
         GPIO_ResetBits(LED_PORT, LED_PIN);
         GPIO_SetBits(BEEP_PORT, BEEP_PIN);
     }
