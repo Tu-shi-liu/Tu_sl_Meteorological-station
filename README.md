@@ -10,7 +10,7 @@
 - 阈值超限声光报警（蜂鸣器 + LED）
 - 软件 I²C 驱动传感器与 OLED，硬件 SPI 驱动 Flash
 
-## 硬件需求
+## 硬件组成
 - MCU：STM32F103C8T6（最小系统板）
 - 传感器：AHT20（温湿度，I²C）、BMP280（气压，I²C）
 - 存储：W25Q64（8MB SPI Flash）
